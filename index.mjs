@@ -12,6 +12,10 @@ var posts = [
 ];
 
 
+app.get("/",(req,res)=>{
+    res.send('express server');
+})
+
 app.get('/post/:id', (req, res) => {
 
     const id = Number(req.params.id);
