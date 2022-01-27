@@ -1,27 +1,41 @@
-import express from 'express';
+import express, { response } from 'express';
+import cors from "cors";
 
-const app = express();
-const PORT = process.env.PORT || 8080;
+const app = express()
+app.use(express.json())
+app.use(cors())
 
-
-let user = {
-    name: 'Muhammad Hamza Farooq',
-    age : 21,
-    city : "Karachi"
-}
-app.get('/',(req,res)=>{
-    res.send("Express Server Deploy On Heroku")
-});
-
-app.get('/user',(req,res)=>{
-    res.json({
-       message:"User Request Successfully Handle",
-       user 
-    })
-});
+var posts = [
+    { text: "some post 0" },
+    { text: "some post 1" },
+    { text: "some post2" }
+];
 
 
+app.get('/post/:id', (req, res) => {
 
-app.listen(PORT,()=>{
-    console.log(`Server is upon running on port ${PORT}`);
+    const id = Number(req.params.id);
+
+    res.send(posts[id]);
+})
+app.get('/posts', (req, res) => {
+    res.send(posts);
+})
+
+app.post('/post', (req, res) => {
+
+    posts.push(req.body);
+
+    res.send(`your post is saved 🥳 now we have ${posts.length} posts`)
+})
+app.put('/post', (req, res) => {
+    res.send('I am Express.js server')
+})
+app.delete('/post', (req, res) => {
+    res.send('I am Express.js server')
+})
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Hello server is listening at http://localhost:${PORT}`)
 })
